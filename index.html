@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Портфолио | София — разработчик и дизайнер</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    :root {
+      --bg: #fff9f5;
+      --bg-card: #ffffff;
+      --text: #5a4a5a;
+      --text-light: #8a7a8a;
+      --accent-primary: #e8b4b8;
+      --accent-secondary: #b8d8e0;
+      --accent-tertiary: #d4b8d9;
+      --glow: 0 4px 20px rgba(232, 180, 184, 0.3);
+      --border: #f0e0e4;
+      --shadow: 0 15px 40px rgba(90, 74, 90, 0.1);
+      --gradient: linear-gradient(135deg, #e8b4b8, #d4b8d9);
+    }
+
+
+    body.dark {
+      --bg: #1a0f2e;
+      --bg-card: #2a1a3a;
+      --text: #e0d4f0;
+      --text-light: #b8a8d0;
+      --accent-primary: #c084fc;
+      --accent-secondary: #a855f7;
+      --accent-tertiary: #7c3aed;
+      --glow: 0 0 20px rgba(160, 120, 255, 0.3);
+      --border: #3a2a4a;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      --gradient: linear-gradient(135deg, #c084fc, #7c3aed);
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.3s ease;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+
+    * {
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+
+    .flower-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-flower {
+      position: absolute;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s;
+      animation: floatFlower 8s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+
+    .floating-flower:hover {
+      transform: scale(1.2);
+    }
+
+    @keyframes floatFlower {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(8deg); }
+    }
+
+    /* Анимация лопания */
+    @keyframes pop {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    .flower-pop {
+      animation: pop 0.3s ease-out forwards !important;
+    }
+
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 10px; }
+
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      z-index: 1003;
+      transition: transform 0.2s;
+    }
+    .theme-toggle:hover { transform: scale(1.08); }
+
+    /* Burger Menu */
+    .burger {
+      position: fixed;
+      right: 90px;
+      top: 24px;
+      width: 44px;
+      height: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 1002;
+      cursor: pointer;
+    }
+    .burger div {
+      height: 3px;
+      background: var(--accent-primary);
+      border-radius: 4px;
+      transition: all 0.35s;
+    }
+    .burger.active div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
+    .burger.active div:nth-child(2) { opacity: 0; }
+    .burger.active div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
+
+    /* Menu */
+    nav.menu {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 320px;
+      height: 100%;
+      background: var(--bg-card);
+      padding: 80px 24px;
+      transition: right 0.4s;
+      z-index: 1001;
+      border-left: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    nav.menu.open { right: 0; }
+    .menu h3 {
+      font-size: 28px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 32px;
+    }
+    .menu a.link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 20px;
+      background: rgba(0,0,0,0.02);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 12px;
+      transition: all 0.25s;
+    }
+    body.dark .menu a.link { background: rgba(255,255,255,0.05); }
+    .menu a.link:hover {
+      transform: translateX(12px);
+      background: var(--accent-primary);
+      color: white;
+    }
+
+
+    .hero {
+      position: relative;
+      padding: 100px 20px 60px;
+      text-align: center;
+      z-index: 2;
+    }
+    .hero-title {
+      font-size: 68px;
+      font-weight: 600;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+    }
+
+
+    .intro {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      max-width: 1300px;
+      margin: 0 auto;
+      z-index: 2;
+      position: relative;
+    }
+    .intro-img-wrapper {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .intro-img-wrapper::before {
+      content: '🌸';
+      position: absolute;
+      top: -25px;
+      left: -25px;
+      font-size: 42px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .intro-img-wrapper::after {
+      content: '✨';
+      position: absolute;
+      bottom: -25px;
+      right: -25px;
+      font-size: 38px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .intro img {
+      width: 380px;
+      border-radius: 120px 40px 120px 40px;
+      box-shadow: var(--shadow);
+      transition: transform 0.4s;
+    }
+    .intro img:hover { transform: scale(1.03); }
+    
+    .intro-text {
+      max-width: 700px;
+    }
+    .typing {
+      font-size: 38px;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      border-right: 4px solid var(--accent-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .intro-text p {
+      font-size: 22px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+
+    .quote-block {
+      padding: 60px 20px;
+      background: rgba(232, 180, 184, 0.1);
+      border-radius: 60px 0 60px 0;
+      margin: 20px;
+    }
+    body.dark .quote-block { background: rgba(160, 120, 255, 0.08); }
+    .quote-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+    .quote-text {
+      font-size: 20px;
+      line-height: 1.6;
+      padding: 30px;
+      background: var(--bg-card);
+      border-radius: 40px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .quote-mark {
+      font-size: 80px;
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      color: var(--accent-primary);
+      opacity: 0.3;
+    }
+    .quote-author {
+      display: block;
+      margin-top: 20px;
+      text-align: right;
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    .quote-content img {
+      width: 200px;
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Навыки */
+    .skills-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 25px;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .skill {
+      background: var(--bg-card);
+      padding: 35px 20px;
+      border-radius: 40px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .skill:hover { transform: translateY(-8px); background: var(--accent-primary); color: white; }
+
+    /* Why Me */
+    .why-me {
+      padding: 70px 20px;
+      text-align: center;
+    }
+    .why-me h2 { font-size: 44px; font-weight: 500; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 35px;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+    .why-card {
+      background: var(--bg-card);
+      padding: 35px 20px;
+      border-radius: 40px;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .why-card:hover { transform: translateY(-8px); }
+    .why-card h3 { font-size: 26px; margin: 15px 0; color: var(--accent-primary); }
+
+    /* Carousels */
+    .carousel {
+      position: relative;
+      max-width: 1200px;
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 0 20px;
+    }
+    .carousel-window { overflow: hidden; width: 100%; }
+    .carousel-track { display: flex; transition: transform 0.5s ease; }
+    .carousel-slide { min-width: 100%; padding: 5px; }
+    .carousel-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .carousel-images img {
+      width: 100%;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+    }
+    .carousel-images img:hover { transform: scale(1.03); }
+    .carousel-caption {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent-secondary);
+    }
+    .carousel-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--accent-primary);
+      font-size: 36px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .carousel-btn:hover { background: var(--accent-primary); color: white; transform: scale(1.05); }
+
+    /* Links */
+    .links {
+      padding: 70px 20px;
+      text-align: center;
+    }
+    .links h2 { font-size: 44px; font-weight: 500; margin-bottom: 50px; }
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .link-card {
+      background: var(--bg-card);
+      padding: 28px 20px;
+      border-radius: 40px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: block;
+    }
+    .link-card span {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    .link-card:hover { transform: translateY(-8px); background: var(--accent-secondary); color: white; }
+
+    /* To Top */
+    #toTop {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-card);
+      color: var(--accent-primary);
+      font-size: 26px;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+      z-index: 2000;
+      box-shadow: var(--shadow);
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; }
+    #toTop:hover { transform: scale(1.1); background: var(--accent-primary); color: white; }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+    footer a { color: var(--accent-primary); text-decoration: none; }
+
+    /* Анимация появления секций */
+    section { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    section.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .intro { flex-direction: column; padding: 30px 20px; gap: 30px; }
+      .intro img { width: 260px; }
+      .typing { font-size: 28px; white-space: normal; border-right: none; }
+      .intro-text p { font-size: 18px; }
+      .why-grid { grid-template-columns: 1fr; }
+      .carousel-images { grid-template-columns: 1fr; }
+      .hero-title { font-size: 42px; }
+      .burger { right: 20px; top: 20px; }
+      .theme-toggle { top: 20px; right: 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="flower-container" id="flowerContainer"></div>
+<button class="theme-toggle" id="themeToggle">🌙</button>
+<div class="burger" id="burger"><div></div><div></div><div></div></div>
+<nav class="menu" id="menu">
+  <h3>🌸 Навигация</h3>
+  <a class="link" href="#intro">🖤 Обо мне</a>
+  <a class="link" href="#certificates">📜 Достижения</a>
+  <a class="link" href="#projects">💻 Работы</a>
+  <a class="link" href="#skills">⭐ Навыки</a>
+  <a class="link" href="#links">🔗 Контакты</a>
+  <a class="link" href="https://tcheriktchertilov.github.io/portfolionew/" target="_blank">⬅ Предыдущее портфолио</a>
+</nav>
+
+<header class="hero"><h1 class="hero-title">Портфолио</h1></header>
+
+<main style="position: relative; z-index: 2;">
+  <section class="intro" id="intro">
+    <div class="intro-img-wrapper"><img src="your-photo.PNG" alt="София"></div>
+    <div class="intro-text">
+      <p class="typing" id="typing">Привет! Я — София, разработчик и дизайнер.</p>
+      <p>Я создаю интерактивные проекты, смешиваю 3D и веб. В моих работах — внимание к деталям, аккуратный код и насыщенный визуал. Учусь в ГПОАУ АО АПК на специальности: 09.02.07 Информационные системы и программирование.</p>
+    </div>
+  </section>
+
+  <section class="quote-block">
+    <div class="quote-content">
+      <div class="quote-text"><span class="quote-mark">“</span><p>Быть человеком — значит иметь пределы. Я кое-чему научился. Чем тщательнее ты строишь планы, тем больше неожиданных событий происходит.</p><span class="quote-author">— Дио Брандо</span></div>
+      <img src="DIO.png" alt="dio">
+    </div>
+  </section>
+
+  <section id="skills"><h2 style="text-align:center; font-size:44px; font-weight:500;">Навыки</h2>
+    <div class="skills-list"><div class="skill">HTML</div><div class="skill">CSS</div><div class="skill">JavaScript</div><div class="skill">Python</div></div>
+  </section>
+
+  <section id="certificates"><h2 style="text-align:center; font-size:44px; font-weight:500;">Мои сертификаты и дипломы</h2>
+    <div class="carousel">
+      <button class="carousel-btn prev">‹</button>
+      <div class="carousel-window"><div class="carousel-track">
+        <div class="carousel-slide"><div class="carousel-images"><img src="cert4.jpg"><img src="cert5.jpg"><img src="cert6.jpg"></div><p class="carousel-caption">1 курс</p></div>
+        <div class="carousel-slide"><div class="carousel-images"><img src="cert7.jpg"><img src="cert8.jpg"><img src="cert9.jpg"></div><p class="carousel-caption">2 курс</p></div>
+        <div class="carousel-slide"><div class="carousel-images"><img src="cert1.jpg"><img src="cert2.jpg"><img src="cert3.jpg"></div><p class="carousel-caption">3 курс</p></div>
+      </div></div>
+      <button class="carousel-btn next">›</button>
+    </div>
+  </section>
+
+  <section id="projects"><h2 style="text-align:center; font-size:44px; font-weight:500;">Мои работы</h2>
+    <div class="carousel">
+      <button class="carousel-btn prev">‹</button>
+      <div class="carousel-window"><div class="carousel-track">
+        <div class="carousel-slide"><div class="carousel-images"><img src="p1.jpg"><img src="p2.jpg"><img src="p3.jpg"></div><p class="carousel-caption">Личные работы</p></div>
+        <div class="carousel-slide"><div class="carousel-images"><img src="p4.jpg"><img src="p5.jpg"><img src="p6.jpg"></div><p class="carousel-caption">Заказы</p></div>
+        <div class="carousel-slide"><div class="carousel-images"><img src="p7.jpg"><img src="p8.jpg"><img src="p9.jpg"></div><p class="carousel-caption">3D работы</p></div>
+      </div></div>
+      <button class="carousel-btn next">›</button>
+    </div>
+  </section>
+
+  <section class="why-me"><h2>Почему же вам стоит работать<br>со мной?</h2><p class="why-sub" style="color: var(--text-light); margin-bottom: 20px;">Мои преимущества</p>
+    <div class="why-grid">
+      <div class="why-card">⭐<h3>Разнообразность</h3><p>Могу работать в разных сферах и направлениях</p></div>
+      <div class="why-card">💬<h3>Коммуникабельность</h3><p>Быстрые ответы и множество вариантов контактов</p></div>
+      <div class="why-card">💸<h3>Цена</h3><p>Почти бесплатно ;)</p></div>
+    </div>
+  </section>
+
+  <section id="links" class="links"><h2>Где меня найти</h2>
+    <div class="links-grid">
+      <a href="https://t.me/cherikk42" target="_blank" class="link-card">💬 Telegram<span>@cherikk42</span></a>
+      <a href="https://t.me/chcherik" target="_blank" class="link-card">📢 Telegram-канал<span>@chcherik</span></a>
+      <a href="https://instagram.com/cherishh.cherry" target="_blank" class="link-card">📸 Instagram<span>@cherishh.cherry</span></a>
+      <a href="mailto:sony.krush@gmail.com" class="link-card">✉ Почта<span>sony.krush@gmail.com</span></a>
+    </div>
+  </section>
+  <footer>© 2025 София — <a href="mailto:sony.krush@gmail.com">sony.krush@gmail.com</a></footer>
+</main>
+<button id="toTop">↑</button>
+
+<script>
+
+  const flowersList = ['🌸', '🌼', '🌷', '🌺', '🌸', '🌿', '🍃', '🌻', '🌹', '💮'];
+  const container = document.getElementById('flowerContainer');
+  
+
+  for (let i = 0; i < 28; i++) {
+    createFloatingFlower();
+  }
+  
+  function createFloatingFlower() {
+    const flower = document.createElement('div');
+    flower.className = 'floating-flower';
+    flower.textContent = flowersList[Math.floor(Math.random() * flowersList.length)];
+    flower.style.left = Math.random() * 100 + '%';
+    flower.style.top = Math.random() * 100 + '%';
+    flower.style.fontSize = (Math.random() * 28 + 20) + 'px';
+    flower.style.animationDuration = (Math.random() * 8 + 6) + 's';
+    flower.style.animationDelay = (Math.random() * 5) + 's';
+    
+
+    flower.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      flower.classList.add('flower-pop');
+      
+
+      for (let i = 0; i < 6; i++) {
+        const particle = document.createElement('div');
+        particle.textContent = ['🌸', '✨', '💮', '🌼'][Math.floor(Math.random() * 4)];
+        particle.style.position = 'fixed';
+        particle.style.left = e.clientX + (Math.random() - 0.5) * 40 + 'px';
+        particle.style.top = e.clientY + (Math.random() - 0.5) * 40 + 'px';
+        particle.style.fontSize = (Math.random() * 16 + 12) + 'px';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '2000';
+        particle.style.opacity = '1';
+        particle.style.transition = 'all 0.5s ease-out';
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.style.transform = `translate(${(Math.random() - 0.5) * 80}px, ${(Math.random() - 0.5) * 80 - 40}px)`;
+          particle.style.opacity = '0';
+          setTimeout(() => particle.remove(), 500);
+        }, 10);
+      }
+      
+
+      setTimeout(() => {
+        flower.remove();
+
+        createFloatingFlower();
+      }, 300);
+    });
+    
+    container.appendChild(flower);
+  }
+
+
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    toggle.textContent = isDark ? '☀️' : '🌙';
+  });
+
+
+  const burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  burger.addEventListener('click', () => { burger.classList.toggle('active'); menu.classList.toggle('open'); });
+  document.querySelectorAll('.menu a').forEach(l => l.addEventListener('click', () => { burger.classList.remove('active'); menu.classList.remove('open'); }));
+
+
+  const typingEl = document.getElementById('typing'), orig = typingEl.textContent.trim();
+  typingEl.textContent = ''; 
+  let idx = 0;
+  function type() { 
+    if (idx <= orig.length) { 
+      typingEl.textContent = orig.slice(0, idx); 
+      idx++; 
+      setTimeout(type, 45); 
+    } else { 
+      typingEl.style.borderRight = 'none'; 
+    } 
+  }
+  type();
+
+
+  const observer = new IntersectionObserver(e => e.forEach(e => e.isIntersecting && e.target.classList.add('show')), { threshold: 0.15 });
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+  // === КАРУСЕЛИ ===
+  document.querySelectorAll('.carousel').forEach(c => {
+    const track = c.querySelector('.carousel-track'), slides = c.querySelectorAll('.carousel-slide'), prev = c.querySelector('.prev'), next = c.querySelector('.next');
+    let index = 0;
+    const update = () => track.style.transform = `translateX(-${index * 100}%)`;
+    next?.addEventListener('click', () => { index = (index + 1) % slides.length; update(); });
+    prev?.addEventListener('click', () => { index = (index - 1 + slides.length) % slides.length; update(); });
+  });
+
+
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => toTop.classList.toggle('show', window.scrollY > 300));
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+</body>
+</html>
