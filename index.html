@@ -12,7 +12,6 @@
       box-sizing: border-box;
     }
 
-
     :root {
       --bg: #fff9f5;
       --bg-card: #ffffff;
@@ -26,7 +25,6 @@
       --shadow: 0 15px 40px rgba(90, 74, 90, 0.1);
       --gradient: linear-gradient(135deg, #e8b4b8, #d4b8d9);
     }
-
 
     body.dark {
       --bg: #1a0f2e;
@@ -51,11 +49,9 @@
       line-height: 1.5;
     }
 
-
     * {
       transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
-
 
     .flower-container {
       position: fixed;
@@ -76,6 +72,7 @@
       transition: transform 0.2s;
       animation: floatFlower 8s ease-in-out infinite;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+      z-index: 5;
     }
 
     .floating-flower:hover {
@@ -87,20 +84,18 @@
       50% { transform: translateY(-25px) rotate(8deg); }
     }
 
-    /* Анимация лопания */
     @keyframes pop {
       0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(2); opacity: 0; }
+      100% { transform: scale(2.5); opacity: 0; }
     }
     .flower-pop {
-      animation: pop 0.3s ease-out forwards !important;
+      animation: pop 0.25s ease-out forwards !important;
+      pointer-events: none !important;
     }
-
 
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 10px; }
-
 
     .theme-toggle {
       position: fixed;
@@ -122,7 +117,6 @@
     }
     .theme-toggle:hover { transform: scale(1.08); }
 
-    /* Burger Menu */
     .burger {
       position: fixed;
       right: 90px;
@@ -145,7 +139,6 @@
     .burger.active div:nth-child(2) { opacity: 0; }
     .burger.active div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
 
-    /* Menu */
     nav.menu {
       position: fixed;
       top: 0;
@@ -188,7 +181,6 @@
       color: white;
     }
 
-
     .hero {
       position: relative;
       padding: 100px 20px 60px;
@@ -204,7 +196,6 @@
       color: transparent;
       letter-spacing: 2px;
     }
-
 
     .intro {
       display: flex;
@@ -268,7 +259,6 @@
       color: var(--text);
     }
 
-
     .quote-block {
       padding: 60px 20px;
       background: rgba(232, 180, 184, 0.1);
@@ -313,7 +303,6 @@
       box-shadow: var(--shadow);
     }
 
-    /* Навыки */
     .skills-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -335,7 +324,6 @@
     }
     .skill:hover { transform: translateY(-8px); background: var(--accent-primary); color: white; }
 
-    /* Why Me */
     .why-me {
       padding: 70px 20px;
       text-align: center;
@@ -359,7 +347,6 @@
     .why-card:hover { transform: translateY(-8px); }
     .why-card h3 { font-size: 26px; margin: 15px 0; color: var(--accent-primary); }
 
-    /* Carousels */
     .carousel {
       position: relative;
       max-width: 1200px;
@@ -404,7 +391,6 @@
     }
     .carousel-btn:hover { background: var(--accent-primary); color: white; transform: scale(1.05); }
 
-    /* Links */
     .links {
       padding: 70px 20px;
       text-align: center;
@@ -438,7 +424,6 @@
     }
     .link-card:hover { transform: translateY(-8px); background: var(--accent-secondary); color: white; }
 
-    /* To Top */
     #toTop {
       position: fixed;
       right: 25px;
@@ -468,7 +453,6 @@
     }
     footer a { color: var(--accent-primary); text-decoration: none; }
 
-    /* Анимация появления секций */
     section { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
     section.show { opacity: 1; transform: translateY(0); }
 
@@ -545,7 +529,7 @@
     </div>
   </section>
 
-  <section class="why-me"><h2>Почему же вам стоит работать<br>со мной?</h2><p class="why-sub" style="color: var(--text-light); margin-bottom: 20px;">Мои преимущества</p>
+  <section class="why-me"><h2>Почему же вам стоит работать<br>со мной?</h2><p style="color: var(--text-light); margin-bottom: 20px;">Мои преимущества</p>
     <div class="why-grid">
       <div class="why-card">⭐<h3>Разнообразность</h3><p>Могу работать в разных сферах и направлениях</p></div>
       <div class="why-card">💬<h3>Коммуникабельность</h3><p>Быстрые ответы и множество вариантов контактов</p></div>
@@ -566,14 +550,8 @@
 <button id="toTop">↑</button>
 
 <script>
-
   const flowersList = ['🌸', '🌼', '🌷', '🌺', '🌸', '🌿', '🍃', '🌻', '🌹', '💮'];
   const container = document.getElementById('flowerContainer');
-  
-
-  for (let i = 0; i < 28; i++) {
-    createFloatingFlower();
-  }
   
   function createFloatingFlower() {
     const flower = document.createElement('div');
@@ -585,43 +563,43 @@
     flower.style.animationDuration = (Math.random() * 8 + 6) + 's';
     flower.style.animationDelay = (Math.random() * 5) + 's';
     
-
-    flower.addEventListener('click', (e) => {
+    flower.addEventListener('click', function(e) {
       e.stopPropagation();
-
+      
       flower.classList.add('flower-pop');
       
-
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 8; i++) {
         const particle = document.createElement('div');
-        particle.textContent = ['🌸', '✨', '💮', '🌼'][Math.floor(Math.random() * 4)];
+        particle.textContent = ['🌸', '✨', '💮', '🌼', '💕'][Math.floor(Math.random() * 5)];
         particle.style.position = 'fixed';
-        particle.style.left = e.clientX + (Math.random() - 0.5) * 40 + 'px';
-        particle.style.top = e.clientY + (Math.random() - 0.5) * 40 + 'px';
-        particle.style.fontSize = (Math.random() * 16 + 12) + 'px';
+        particle.style.left = e.clientX + (Math.random() - 0.5) * 50 + 'px';
+        particle.style.top = e.clientY + (Math.random() - 0.5) * 50 + 'px';
+        particle.style.fontSize = (Math.random() * 18 + 12) + 'px';
         particle.style.pointerEvents = 'none';
-        particle.style.zIndex = '2000';
+        particle.style.zIndex = '9999';
         particle.style.opacity = '1';
-        particle.style.transition = 'all 0.5s ease-out';
+        particle.style.transition = 'all 0.6s ease-out';
         document.body.appendChild(particle);
         
         setTimeout(() => {
-          particle.style.transform = `translate(${(Math.random() - 0.5) * 80}px, ${(Math.random() - 0.5) * 80 - 40}px)`;
+          particle.style.transform = `translate(${(Math.random() - 0.5) * 100}px, ${(Math.random() - 0.5) * 100 - 50}px)`;
           particle.style.opacity = '0';
-          setTimeout(() => particle.remove(), 500);
+          setTimeout(() => particle.remove(), 600);
         }, 10);
       }
       
-
       setTimeout(() => {
-        flower.remove();
+        if (flower.parentNode) flower.remove();
         createFloatingFlower();
-      }, 300);
+      }, 250);
     });
     
     container.appendChild(flower);
   }
-
+  
+  for (let i = 0; i < 32; i++) {
+    createFloatingFlower();
+  }
 
   const toggle = document.getElementById('themeToggle');
   toggle.addEventListener('click', () => {
@@ -630,43 +608,67 @@
     toggle.textContent = isDark ? '☀️' : '🌙';
   });
 
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  burger.addEventListener('click', () => { 
+    burger.classList.toggle('active'); 
+    menu.classList.toggle('open'); 
+  });
+  document.querySelectorAll('.menu a').forEach(l => l.addEventListener('click', () => { 
+    burger.classList.remove('active'); 
+    menu.classList.remove('open'); 
+  }));
 
-  const burger = document.getElementById('burger'), menu = document.getElementById('menu');
-  burger.addEventListener('click', () => { burger.classList.toggle('active'); menu.classList.toggle('open'); });
-  document.querySelectorAll('.menu a').forEach(l => l.addEventListener('click', () => { burger.classList.remove('active'); menu.classList.remove('open'); }));
-
-
-  const typingEl = document.getElementById('typing'), orig = typingEl.textContent.trim();
+  const typingEl = document.getElementById('typing');
+  const originalText = typingEl.textContent.trim();
   typingEl.textContent = ''; 
-  let idx = 0;
-  function type() { 
-    if (idx <= orig.length) { 
-      typingEl.textContent = orig.slice(0, idx); 
-      idx++; 
-      setTimeout(type, 45); 
+  let charIndex = 0;
+  function typeWriter() { 
+    if (charIndex <= originalText.length) { 
+      typingEl.textContent = originalText.slice(0, charIndex); 
+      charIndex++; 
+      setTimeout(typeWriter, 45); 
     } else { 
       typingEl.style.borderRight = 'none'; 
     } 
   }
-  type();
+  typeWriter();
 
-
-  const observer = new IntersectionObserver(e => e.forEach(e => e.isIntersecting && e.target.classList.add('show')), { threshold: 0.15 });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('show');
+    });
+  }, { threshold: 0.15 });
   document.querySelectorAll('section').forEach(s => observer.observe(s));
 
-  // === КАРУСЕЛИ ===
   document.querySelectorAll('.carousel').forEach(c => {
-    const track = c.querySelector('.carousel-track'), slides = c.querySelectorAll('.carousel-slide'), prev = c.querySelector('.prev'), next = c.querySelector('.next');
-    let index = 0;
-    const update = () => track.style.transform = `translateX(-${index * 100}%)`;
-    next?.addEventListener('click', () => { index = (index + 1) % slides.length; update(); });
-    prev?.addEventListener('click', () => { index = (index - 1 + slides.length) % slides.length; update(); });
+    const track = c.querySelector('.carousel-track');
+    const slides = c.querySelectorAll('.carousel-slide');
+    const prev = c.querySelector('.prev');
+    const next = c.querySelector('.next');
+    let currentIndex = 0;
+    const updateCarousel = () => track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    if (next) {
+      next.addEventListener('click', () => { 
+        currentIndex = (currentIndex + 1) % slides.length; 
+        updateCarousel(); 
+      });
+    }
+    if (prev) {
+      prev.addEventListener('click', () => { 
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length; 
+        updateCarousel(); 
+      });
+    }
   });
 
-
   const toTop = document.getElementById('toTop');
-  window.addEventListener('scroll', () => toTop.classList.toggle('show', window.scrollY > 300));
-  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 300);
+  });
+  toTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 </script>
 </body>
 </html>
